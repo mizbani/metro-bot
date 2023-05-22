@@ -96,6 +96,31 @@ bot.on("location", (msg) => {
   bot.sendMessage(chatId, `زمان رسیدن قطار: ${trainArrivalTime}`);
 });
 
+function calculateTrainArrivalTime(station) {
+  // Get the current time
+  const currentTime = new Date();
+  const currentHour = currentTime.getHours();
+  const currentMinute = currentTime.getMinutes();
+
+  // Find the next train arrival time
+  let nextArrivalTime;
+  for (let i = 0; i < station.arrivalTimes.length; i++) {
+    const arrivalTime = station.arrivalTimes[i].split(":");
+    const hour = parseInt(arrivalTime[0]);
+    const minute = parseInt(arrivalTime[1]);
+
+    if (
+      hour > currentHour ||
+      (hour === currentHour && minute >= currentMinute)
+    ) {
+      nextArrivalTime = station.arrivalTimes[i];
+      break;
+    }
+  }
+
+  return nextArrivalTime;
+}
+
 function getStationList() {
   const stationList = stationsData.stations.map((station) => [station.name]);
   return stationList;
@@ -106,6 +131,30 @@ function findStationByName(stationName) {
     (station) => station.name === stationName
   );
   return station;
+}
+
+function findNearestStation(latitude, longitude) {
+  let nearestStation;
+  let minDistance = Infinity;
+
+  for (const station of stationsData.stations) {
+    const stationLatitude = station.latitude;
+    const stationLongitude = station.longitude;
+
+    const distance = calculateDistance(
+      latitude,
+      longitude,
+      stationLatitude,
+      stationLongitude
+    );
+
+    if (distance < minDistance) {
+      minDistance = distance;
+      nearestStation = station;
+    }
+  }
+
+  return nearestStation;
 }
 
 const port = process.env.PORT || 8080;
