@@ -93,12 +93,15 @@ bot.on("location", (msg) => {
   const trainArrivalTime = calculateTrainArrivalTime(nearestStation);
 
   bot.sendMessage(chatId, `نزدیک‌ترین ایستگاه: ${nearestStation.name}`);
-  bot.sendMessage(chatId, `زمان رسیدن قطار: ${trainArrivalTime}`);
+  bot.sendMessage(
+    chatId,
+    `زمان رسیدن قطار: ${trainArrivalTime[0]} , ${trainArrivalTime[0]} دیگر`
+  );
 });
 
 function calculateTrainArrivalTime(station) {
   // Get the current time
-  const currentTime = new Date();
+  var currentTime = new Date();
   const currentHour = currentTime.getHours();
   const currentMinute = currentTime.getMinutes();
 
@@ -118,12 +121,19 @@ function calculateTrainArrivalTime(station) {
     }
   }
 
-  if(!nextArrivalTime)
-  {
+  if (!nextArrivalTime) {
     nextArrivalTime = station.arrivalTimes[0];
+    currentTime = new Date();
+    currentTime.setDate(currentTime.getDate() + 1);
   }
 
-  return nextArrivalTime;
+  const firstTrainTime = new Date(
+    currentTime.toDateString() + " " + nextArrivalTime
+  );
+  const timeDiff = Math.abs(firstTrainTime.getTime() - currentTime.getTime());
+  const minutesDiff = Math.ceil(timeDiff / (1000 * 60));
+
+  return [nextArrivalTime, `${minutesDiff} دقیقه`];
 }
 
 function getStationList() {
