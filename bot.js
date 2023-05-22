@@ -1,9 +1,26 @@
+const express = require("express");
+const bodyParser = require("body-parser");
 const TelegramBot = require("node-telegram-bot-api");
 const stationsData = require("./stations.json");
 
-const bot = new TelegramBot("5593931488:AAGf6E2jATOXNi-0Me6o3-7eIGRtABTN5pg", {
-  polling: true,
+const app = express();
+const bot = new TelegramBot("5593931488:AAGf6E2jATOXNi-0Me6o3-7eIGRtABTN5pg");
+
+app.use(bodyParser.json());
+
+bot.setWebHook("https://metro-bot.vercel.app/webhook")
+  .then(() => {
+    console.log("Webhook has been set successfully");
+  })
+  .catch((error) => {
+    console.error("Error setting webhook:", error);
+  });
+
+app.post("/webhook", (req, res) => {
+  bot.processUpdate(req.body);
+  res.sendStatus(200);
 });
+
 console.log("start ...");
 bot.onText(/\/start/, (msg) => {
   console.log("on start ...");
@@ -81,3 +98,7 @@ function findStationByName(stationName) {
   );
   return station;
 }
+
+app.listen(3000, () => {
+  console.log("Server started on port 3000");
+});
