@@ -17,7 +17,7 @@ bot
     console.error("Error setting webhook:", error);
   });
 
-app.post("/", (req, res) => {
+app.get("/", (req, res) => {
   res.sendStatus(200);
   res.json({ message: "Service is Run!" });
 });
