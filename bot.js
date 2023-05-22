@@ -8,13 +8,19 @@ const bot = new TelegramBot("5593931488:AAGf6E2jATOXNi-0Me6o3-7eIGRtABTN5pg");
 
 app.use(bodyParser.json());
 
-bot.setWebHook("https://metro-bot.vercel.app/webhook")
+bot
+  .setWebHook("https://metro-bot.vercel.app/webhook")
   .then(() => {
     console.log("Webhook has been set successfully");
   })
   .catch((error) => {
     console.error("Error setting webhook:", error);
   });
+
+app.post("/", (req, res) => {
+  res.sendStatus(200);
+  res.json({ message: "Service is Run!" });
+});
 
 app.post("/webhook", (req, res) => {
   bot.processUpdate(req.body);
@@ -99,6 +105,8 @@ function findStationByName(stationName) {
   return station;
 }
 
-app.listen(80, () => {
+app.listen(3000, () => {
   console.log("Server started on port 3000");
 });
+
+module.exports = app;
