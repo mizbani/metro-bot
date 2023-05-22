@@ -30,7 +30,7 @@ app.post("/webhook", (req, res) => {
   res.sendStatus(200);
 });
 
-console.log("start ...");
+console.log("start ...", 700 % 60);
 bot.onText(/\/start/, (msg) => {
   console.log("on start ...");
 
@@ -95,7 +95,7 @@ bot.on("location", (msg) => {
   bot.sendMessage(chatId, `نزدیک‌ترین ایستگاه: ${nearestStation.name}`);
   bot.sendMessage(
     chatId,
-    `زمان رسیدن قطار: ${trainArrivalTime[0]} , ${trainArrivalTime[0]} دیگر`
+    `زمان رسیدن قطار: ${trainArrivalTime[0]} \n ${trainArrivalTime[0]} دیگر`
   );
 });
 
@@ -107,6 +107,7 @@ function calculateTrainArrivalTime(station) {
 
   // Find the next train arrival time
   let nextArrivalTime;
+  let nextArrivalDiff;
   for (let i = 0; i < station.arrivalTimes.length; i++) {
     const arrivalTime = station.arrivalTimes[i].split(":");
     const hour = parseInt(arrivalTime[0]);
@@ -133,7 +134,14 @@ function calculateTrainArrivalTime(station) {
   const timeDiff = Math.abs(firstTrainTime.getTime() - currentTime.getTime());
   const minutesDiff = Math.ceil(timeDiff / (1000 * 60));
 
-  return [nextArrivalTime, `${minutesDiff} دقیقه`];
+  if (minutesDiff < 60) {
+    nextArrivalDiff = minutesDiff + " دقیقه";
+  } else {
+    nextArrivalDiff =
+      Math.floor(minutesDiff / 60) + " ساعت و " + (minutesDiff % 60) + " دقیقه";
+  }
+
+  return [nextArrivalTime, nextArrivalDiff];
 }
 
 function getStationList() {
