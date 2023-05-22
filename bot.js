@@ -58,7 +58,7 @@ bot.on("message", (msg) => {
     bot.sendMessage(chatId, `شما ایستگاه ${station.name} را انتخاب کردید.`);
     bot.sendMessage(
       chatId,
-      `زمان رسیدن قطار: ${trainArrivalTime[0]} \n ${trainArrivalTime[0]} دیگر`
+      `زمان رسیدن قطار: ${trainArrivalTime[0]} \n ${trainArrivalTime[1]} دیگر`
     );
   } else {
     bot.sendMessage(
