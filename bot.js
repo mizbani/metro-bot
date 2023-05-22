@@ -56,7 +56,10 @@ bot.on("message", (msg) => {
   if (station) {
     const trainArrivalTime = calculateTrainArrivalTime(station);
     bot.sendMessage(chatId, `شما ایستگاه ${station.name} را انتخاب کردید.`);
-    bot.sendMessage(chatId, `زمان رسیدن قطار: ${trainArrivalTime}`);
+    bot.sendMessage(
+      chatId,
+      `زمان رسیدن قطار: ${trainArrivalTime[0]} \n ${trainArrivalTime[0]} دیگر`
+    );
   } else {
     bot.sendMessage(
       chatId,
@@ -180,7 +183,7 @@ function findNearestStation(latitude, longitude) {
   return nearestStation;
 }
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 8090;
 app.listen(port, () => {
   console.log("Server started on port " + port);
 });
