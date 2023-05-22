@@ -1,14 +1,18 @@
-const TelegramBot = require('node-telegram-bot-api');
-const stationsData = require('./stations.json');
+const TelegramBot = require("node-telegram-bot-api");
+const stationsData = require("./stations.json");
 
-const bot = new TelegramBot('5593931488:AAGf6E2jATOXNi-0Me6o3-7eIGRtABTN5pg', { polling: true });
-
+const bot = new TelegramBot("5593931488:AAGf6E2jATOXNi-0Me6o3-7eIGRtABTN5pg", {
+  polling: true,
+});
+console.log("start ...");
 bot.onText(/\/start/, (msg) => {
+  console.log("on start ...");
+
   const chatId = msg.chat.id;
   const stationList = getStationList();
 
-  bot.sendMessage(chatId, 'به ربات مترو خوش آمدید!');
-  bot.sendMessage(chatId, 'لطفاً یک ایستگاه را انتخاب کنید:', {
+  bot.sendMessage(chatId, "به ربات مترو خوش آمدید!");
+  bot.sendMessage(chatId, "لطفاً یک ایستگاه را انتخاب کنید:", {
     reply_markup: {
       keyboard: stationList,
       one_time_keyboard: true,
@@ -16,7 +20,9 @@ bot.onText(/\/start/, (msg) => {
   });
 });
 
-bot.on('message', (msg) => {
+bot.on("message", (msg) => {
+  console.log("on message ...");
+
   const chatId = msg.chat.id;
   const selectedStation = msg.text;
 
@@ -26,18 +32,22 @@ bot.on('message', (msg) => {
     bot.sendMessage(chatId, `شما ایستگاه ${station.name} را انتخاب کردید.`);
     bot.sendMessage(chatId, `زمان رسیدن قطار: ${trainArrivalTime}`);
   } else {
-    bot.sendMessage(chatId, 'ایستگاه انتخاب شده یافت نشد. لطفاً دوباره تلاش کنید.');
+    bot.sendMessage(
+      chatId,
+      "ایستگاه انتخاب شده یافت نشد. لطفاً دوباره تلاش کنید."
+    );
   }
 });
 
 bot.onText(/\/nearest/, (msg) => {
+  console.log("on nearest ...");
   const chatId = msg.chat.id;
-  bot.sendMessage(chatId, 'لطفاً موقعیت جغرافیایی خود را ارسال کنید.', {
+  bot.sendMessage(chatId, "لطفاً موقعیت جغرافیایی خود را ارسال کنید.", {
     reply_markup: {
       keyboard: [
         [
           {
-            text: 'ارسال موقعیت جغرافیایی',
+            text: "ارسال موقعیت جغرافیایی",
             request_location: true,
           },
         ],
@@ -47,7 +57,8 @@ bot.onText(/\/nearest/, (msg) => {
   });
 });
 
-bot.on('location', (msg) => {
+bot.on("location", (msg) => {
+  console.log("on location ...");
   const chatId = msg.chat.id;
   const latitude = msg.location.latitude;
   const longitude = msg.location.longitude;
@@ -70,4 +81,3 @@ function findStationByName(stationName) {
   );
   return station;
 }
-
