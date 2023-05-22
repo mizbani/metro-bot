@@ -118,6 +118,11 @@ function calculateTrainArrivalTime(station) {
     }
   }
 
+  if(!nextArrivalTime)
+  {
+    nextArrivalTime = station.arrivalTimes[0];
+  }
+
   return nextArrivalTime;
 }
 
