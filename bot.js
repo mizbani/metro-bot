@@ -5,12 +5,14 @@ const bodyParser = require("body-parser");
 const TelegramBot = require("node-telegram-bot-api");
 const stationsData = require("./stations.json");
 
-const app = express();
 const bot = new TelegramBot("5593931488:AAGf6E2jATOXNi-0Me6o3-7eIGRtABTN5pg", {
   polling: true,
   webHook: false,
 });
 
+bot.setWebHook(`https://metro-bot.vercel.app/webhook`);
+
+const app = express();
 app.use(bodyParser.json());
 
 // bot
@@ -30,25 +32,16 @@ app.get("/", (req, res) => {
 app.get("/ping", (req, res) => {
   res.send("pong 🏓");
 });
-app.get("/test", (req, res) => {
-  var keyboard = [[]];
-  const stationList = getStationList();
-  for (var st = 0; st < stationList.length; st++) {
-    var last = keyboard[keyboard.length - 1];
-    if (last == undefined) last = [];
-    if (last.length >= 3) {
-      last = [];
-      keyboard.push(last);
-    }
-    last.unshift(stationList[st]);
-  }
-  res.json(keyboard);
-});
 
 app.post("/webhook", (req, res) => {
   console.log("owebhook", req.body);
-  //  bot.processUpdate(req.body);
-  // res.sendStatus(200);
+  bot.processUpdate(req.body);
+  res.sendStatus(200);
+});
+
+// Start Express Server
+app.listen(port, () => {
+  console.log(`Express server is listening on ${port}`);
 });
 
 console.log("start ...", 700 % 60);
@@ -238,4 +231,3 @@ function findNearestStation(latitude, longitude) {
 
   return nearestStation;
 }
-
