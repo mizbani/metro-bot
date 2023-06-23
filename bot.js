@@ -41,6 +41,7 @@ app.get("/test", (req, res) => {
 });
 
 app.post("/webhook", (req, res) => {
+  console.log("owebhook", req.body);
   bot.processUpdate(req.body);
   res.sendStatus(200);
 });
@@ -70,6 +71,7 @@ bot.onText(/\/start/, (msg) => {
       keyboard: keyboard,
       one_time_keyboard: true,
       resize_keyboard: true,
+      remove_keyboard: true,
     },
   });
 });
