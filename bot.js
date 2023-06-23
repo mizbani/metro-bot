@@ -1,4 +1,4 @@
-process.env.TZ = 'Asia/Tehran';
+process.env.TZ = "Asia/Tehran";
 
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -79,7 +79,7 @@ bot.onText(/\/start/, (msg) => {
 });
 
 bot.on("message", (msg) => {
-  console.log("on message ...");
+  console.log("on message ...", msg);
 
   const chatId = msg.chat.id;
   const selectedStation = msg.text;
@@ -90,8 +90,8 @@ bot.on("message", (msg) => {
 
     bot.sendMessage(
       chatId,
-      `ایستگاه : ${station.name}\n`+
-      `زمان رسیدن قطار: ${trainArrivalTime[0]} \n ${trainArrivalTime[1]} دیگر`,
+      `ایستگاه : ${station.name}\n` +
+        `زمان رسیدن قطار: ${trainArrivalTime[0]} \n ${trainArrivalTime[1]} دیگر`,
       {
         reply_markup: JSON.stringify({
           inline_keyboard: [
@@ -148,6 +148,7 @@ bot.on("location", (msg) => {
 });
 
 bot.on("callback_query", (callbackQuery) => {
+  console.log("callbackQuery", callbackQuery);
   const msg = callbackQuery.message;
   bot
     .answerCallbackQuery(callbackQuery.id)
