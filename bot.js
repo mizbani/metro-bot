@@ -81,7 +81,7 @@ bot.on("message", (msg) => {
             [
               {
                 text: "زمان بعدی",
-                callback_data: JSON.stringify({ station: station, trainArrivalTime }),
+                callback_data: "next-time",
               },
             ],
           ],
