@@ -38,10 +38,22 @@ bot.onText(/\/start/, (msg) => {
   const chatId = msg.chat.id;
   const stationList = getStationList();
 
+  var keyboard = [[]];
+
+  for (var st = 0; st < stationList.length; st++) {
+    var last = keyboard[keyboard.length - 1];
+    if (last == undefined) last = [];
+    if (last.length >= 3) {
+      last = [];
+      keyboard.push(last);
+    }
+    last.push(stationList[st]);
+  }
+
   bot.sendMessage(chatId, "به ربات مترو خوش آمدید!");
   bot.sendMessage(chatId, "لطفاً یک ایستگاه را انتخاب کنید:", {
     reply_markup: {
-      keyboard: stationList,
+      keyboard: keyboard,
       one_time_keyboard: true,
       resize_keyboard: true,
     },
