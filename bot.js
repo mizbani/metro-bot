@@ -35,7 +35,7 @@ app.get("/test", (req, res) => {
       last = [];
       keyboard.push(last);
     }
-    last.push(stationList[st]);
+    last.unshift(stationList[st]);
   }
   res.json(keyboard);
 });
@@ -61,7 +61,7 @@ bot.onText(/\/start/, (msg) => {
       last = [];
       keyboard.push(last);
     }
-    last.push(stationList[st]);
+    last.unshift(stationList[st]);
   }
 
   bot.sendMessage(chatId, "به ربات مترو خوش آمدید!");
