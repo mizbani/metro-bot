@@ -25,6 +25,20 @@ app.get("/", (req, res) => {
 app.get("/ping", (req, res) => {
   res.send("pong 🏓");
 });
+app.get("/test", (req, res) => {
+  var keyboard = [[]];
+  const stationList = getStationList();
+  for (var st = 0; st < stationList.length; st++) {
+    var last = keyboard[keyboard.length - 1];
+    if (last == undefined) last = [];
+    if (last.length >= 3) {
+      last = [];
+      keyboard.push(last);
+    }
+    last.push(stationList[st]);
+  }
+  res.json(keyboard);
+});
 
 app.post("/webhook", (req, res) => {
   bot.processUpdate(req.body);
@@ -162,7 +176,7 @@ function calculateTrainArrivalTime(station) {
 }
 
 function getStationList() {
-  const stationList = stationsData.stations.map((station) => [station.name]);
+  const stationList = stationsData.stations.map((station) => station.name);
   return stationList;
 }
 
