@@ -33,11 +33,6 @@ app.get("/ping", (req, res) => {
   res.send("pong 🏓");
 });
 
-app.post("/webhook", (req, res) => {
-  console.log("owebhook", req.body);
-  bot.processUpdate(req.body);
-  res.sendStatus(200);
-});
 
 const port = process.env.PORT || 8090;
 // Start Express Server
@@ -232,3 +227,9 @@ function findNearestStation(latitude, longitude) {
 
   return nearestStation;
 }
+
+app.post("/webhook", (req, res) => {
+  console.log("on webhook", req.body);
+  bot.processUpdate(req.body);
+  res.sendStatus(200);
+});
