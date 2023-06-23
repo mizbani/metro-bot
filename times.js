@@ -80,4 +80,7 @@ for (var index = 0; index < stations.length; index++) {
 //console.log(result);
 
 const fs = require("fs");
-fs.writeFileSync("stations.json", JSON.stringify(result, null, 4));
+fs.writeFileSync(
+  "stations.json",
+  JSON.stringify({ stations: result }, null, 4)
+);
