@@ -95,7 +95,6 @@ bot.on("message", (msg) => {
               callback_data: "click",
             },
           ],
-          remove_keyboard: true,
         },
       }
     );
