@@ -5,24 +5,11 @@ const bodyParser = require("body-parser");
 const TelegramBot = require("node-telegram-bot-api");
 const stationsData = require("./stations.json");
 
-const bot = new TelegramBot("5593931488:AAGf6E2jATOXNi-0Me6o3-7eIGRtABTN5pg", {
-  polling: true,
-  webHook: false,
-});
-
+const bot = new TelegramBot("5593931488:AAGf6E2jATOXNi-0Me6o3-7eIGRtABTN5pg");
 bot.setWebHook(`https://metro-bot.vercel.app/webhook`);
 
 const app = express();
 app.use(bodyParser.json());
-
-// bot
-//   .setWebHook("https://metro-bot.vercel.app/webhook")
-//   .then(() => {
-//     console.log("Webhook has been set successfully");
-//   })
-//   .catch((error) => {
-//     console.error("Error setting webhook:", error);
-//   });
 
 app.get("/", (req, res) => {
   res.sendStatus(200);
@@ -33,6 +20,10 @@ app.get("/ping", (req, res) => {
   res.send("pong 🏓");
 });
 
+app.get("/run", (req, res) => {
+  bot.setWebHook(`https://metro-bot.vercel.app/webhook`);
+  res.send("pong 🏓");
+});
 
 const port = process.env.PORT || 8090;
 // Start Express Server
