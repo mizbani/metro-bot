@@ -89,7 +89,13 @@ bot.on("message", (msg) => {
       `زمان رسیدن قطار: ${trainArrivalTime[0]} \n ${trainArrivalTime[1]} دیگر`,
       {
         reply_markup: {
-          inline_keyboard: ["زمان بعدی"],
+          inline_keyboard: [
+            {
+              text: "زمان بعدی",
+              callback_data: "click",
+            },
+          ],
+          remove_keyboard: true,
         },
       }
     );
