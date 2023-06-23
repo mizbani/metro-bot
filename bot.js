@@ -21,6 +21,7 @@ app.get("/", (req, res) => {
   res.sendStatus(200);
   res.json({ message: "Service is Run!" });
 });
+
 app.get("/ping", (req, res) => {
   res.send("pong 🏓");
 });
