@@ -10,14 +10,14 @@ const bot = new TelegramBot("5593931488:AAGf6E2jATOXNi-0Me6o3-7eIGRtABTN5pg");
 
 app.use(bodyParser.json());
 
-bot
-  .setWebHook("https://metro-bot.vercel.app/webhook")
-  .then(() => {
-    console.log("Webhook has been set successfully");
-  })
-  .catch((error) => {
-    console.error("Error setting webhook:", error);
-  });
+// bot
+//   .setWebHook("https://metro-bot.vercel.app/webhook")
+//   .then(() => {
+//     console.log("Webhook has been set successfully");
+//   })
+//   .catch((error) => {
+//     console.error("Error setting webhook:", error);
+//   });
 
 app.get("/", (req, res) => {
   res.sendStatus(200);
