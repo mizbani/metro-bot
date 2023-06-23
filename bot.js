@@ -39,6 +39,7 @@ app.post("/webhook", (req, res) => {
   res.sendStatus(200);
 });
 
+const port = process.env.PORT || 8090;
 // Start Express Server
 app.listen(port, () => {
   console.log(`Express server is listening on ${port}`);
