@@ -81,7 +81,7 @@ bot.on("message", (msg) => {
             [
               {
                 text: "زمان بعدی",
-                callback_data: "click",
+                callback_data: { station: station, trainArrivalTime },
               },
             ],
           ],
@@ -130,12 +130,11 @@ bot.on("location", (msg) => {
   );
 });
 
-bot.on("callback_query", (callbackQuery) => {
+bot.on("callback_query", async (callbackQuery) => {
   console.log("callbackQuery", callbackQuery);
   const msg = callbackQuery.message;
-  bot
-    .answerCallbackQuery(callbackQuery.id)
-    .then(() => bot.sendMessage(msg.chat.id, "You clicked!"));
+  await bot.answerCallbackQuery(callbackQuery.id);
+  await bot.sendMessage(msg.chat.id, "You clicked!");
 });
 
 function calculateTrainArrivalTime(station) {
