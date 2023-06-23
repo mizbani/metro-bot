@@ -11,6 +11,8 @@ const bot = new TelegramBot("5593931488:AAGf6E2jATOXNi-0Me6o3-7eIGRtABTN5pg", {
   webHook: false,
 });
 
+
+
 app.use(bodyParser.json());
 
 // bot
@@ -240,8 +242,10 @@ function findNearestStation(latitude, longitude) {
 }
 
 const port = process.env.PORT || 8090;
-app.listen(port, () => {
+app.listen(port, async () => {
   console.log("Server started on port " + port);
+  await bot.deleteWebHook();
+  console.log('deleteWebHook');
 });
 
 module.exports = app;
