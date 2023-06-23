@@ -43,6 +43,7 @@ bot.onText(/\/start/, (msg) => {
     reply_markup: {
       keyboard: stationList,
       one_time_keyboard: true,
+      resize_keyboard: true,
     },
   });
 });
