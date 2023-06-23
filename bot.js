@@ -88,14 +88,16 @@ bot.on("message", (msg) => {
       chatId,
       `زمان رسیدن قطار: ${trainArrivalTime[0]} \n ${trainArrivalTime[1]} دیگر`,
       {
-        reply_markup: {
+        reply_markup: JSON.stringify({
           inline_keyboard: [
-            {
-              text: "زمان بعدی",
-              callback_data: "click",
-            },
+            [
+              {
+                text: "زمان بعدی",
+                callback_data: "click",
+              },
+            ],
           ],
-        },
+        }),
       }
     );
   } else {
@@ -138,6 +140,13 @@ bot.on("location", (msg) => {
     chatId,
     `زمان رسیدن قطار: ${trainArrivalTime[0]} \n ${trainArrivalTime[0]} دیگر`
   );
+});
+
+bot.on("callback_query", (callbackQuery) => {
+  const msg = callbackQuery.message;
+  bot
+    .answerCallbackQuery(callbackQuery.id)
+    .then(() => bot.sendMessage(msg.chat.id, "You clicked!"));
 });
 
 function calculateTrainArrivalTime(station) {
