@@ -1,3 +1,5 @@
+process.env.TZ = 'Asia/Tehran';
+
 const express = require("express");
 const bodyParser = require("body-parser");
 const TelegramBot = require("node-telegram-bot-api");
@@ -85,9 +87,10 @@ bot.on("message", (msg) => {
   const station = findStationByName(selectedStation);
   if (station) {
     const trainArrivalTime = calculateTrainArrivalTime(station);
-    bot.sendMessage(chatId, `شما ایستگاه ${station.name} را انتخاب کردید.`);
+
     bot.sendMessage(
       chatId,
+      `ایستگاه : ${station.name}\n`+
       `زمان رسیدن قطار: ${trainArrivalTime[0]} \n ${trainArrivalTime[1]} دیگر`,
       {
         reply_markup: JSON.stringify({
