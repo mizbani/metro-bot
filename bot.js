@@ -130,11 +130,11 @@ bot.on("location", (msg) => {
   );
 });
 
-bot.on("callback_query", async (callbackQuery) => {
+bot.on("callback_query", (callbackQuery) => {
   console.log("callbackQuery", callbackQuery);
   const msg = callbackQuery.message;
-  await bot.answerCallbackQuery(callbackQuery.id);
-  await bot.sendMessage(msg.chat.id, "You clicked!");
+  bot.answerCallbackQuery(callbackQuery.id);
+  bot.sendMessage(msg.chat.id, "You clicked!");
 });
 
 function calculateTrainArrivalTime(station) {
