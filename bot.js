@@ -6,7 +6,10 @@ const TelegramBot = require("node-telegram-bot-api");
 const stationsData = require("./stations.json");
 
 const app = express();
-const bot = new TelegramBot("5593931488:AAGf6E2jATOXNi-0Me6o3-7eIGRtABTN5pg");
+const bot = new TelegramBot("5593931488:AAGf6E2jATOXNi-0Me6o3-7eIGRtABTN5pg", {
+  polling: true,
+  webHook: false,
+});
 
 app.use(bodyParser.json());
 
@@ -44,8 +47,8 @@ app.get("/test", (req, res) => {
 
 app.post("/webhook", (req, res) => {
   console.log("owebhook", req.body);
-  bot.processUpdate(req.body);
-  res.sendStatus(200);
+  //  bot.processUpdate(req.body);
+  // res.sendStatus(200);
 });
 
 console.log("start ...", 700 % 60);
