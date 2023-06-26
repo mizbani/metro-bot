@@ -11,6 +11,12 @@ bot.setWebHook(`https://metro-bot.vercel.app/webhook`);
 const app = express();
 app.use(bodyParser.json());
 
+const port = process.env.PORT || 8090;
+// Start Express Server
+app.listen(port, () => {
+  console.log(`Express server is listening on ${port}`);
+});
+
 app.get("/", (req, res) => {
   res.sendStatus(200);
   res.json({ message: "Service is Run!" });
@@ -25,10 +31,10 @@ app.get("/run", (req, res) => {
   res.send("pong 🏓");
 });
 
-const port = process.env.PORT || 8090;
-// Start Express Server
-app.listen(port, () => {
-  console.log(`Express server is listening on ${port}`);
+app.post("/webhook", (req, res) => {
+  console.log("on webhook", req.body);
+  bot.processUpdate(req.body);
+  res.sendStatus(200);
 });
 
 console.log("start ...", 700 % 60);
@@ -217,8 +223,4 @@ function findNearestStation(latitude, longitude) {
   return nearestStation;
 }
 
-app.post("/webhook", (req, res) => {
-  console.log("on webhook", req.body);
-  bot.processUpdate(req.body);
-  res.sendStatus(200);
-});
+module.exports = app;
